@@ -1,14 +1,18 @@
 {
-    "name": "asoc/assetic-angular-js-bundle",
+    "name": "getu-lar/assetic-angular-js-bundle",
     "description": "Assetic filter to output AngularJS templates for the template cache",
     "keywords": ["assetic", "angular", "template"],
     "license": "MIT",
     "type": "symfony-bundle",
-    "homepage": "https://github.com/AStateOfCode/AsseticAngularJsBundle",
+    "homepage": "https://github.com/getu-lar/AsseticAngularJsBundle",
     "authors": [
         {
             "name": "Pascal Kuendig",
             "email": "padakuro@gmail.com"
+        },
+        {
+            "name": "Lukas Angerer",
+            "email": "lukas.angerer@getunik.com"
         }
     ],
     "minimum-stability": "dev",
