@@ -40,6 +40,8 @@ class AsocAsseticAngularJsExtension extends Extension
             $container->setAlias('asoc_assetic_angular_js.template_name_formatter', $config['formatter_id']);
         }
 
+        $container->setParameter('asoc_assetic_angular_js.angular_module_name', $config['angular_module_name']);
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('assetic.xml');
     }

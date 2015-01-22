@@ -32,6 +32,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->scalarNode('formatter_id')->defaultNull()->end()
+            ->scalarNode('angular_module_name')->defaultValue('angularApp')->end()
             ->end();
 
         return $treeBuilder;

@@ -25,8 +25,9 @@ class SymfonyTemplateNameFormatter implements TemplateNameFormatterInterface
      * @var array
      */
     private $bundleMap;
+    private $angularModuleName;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, $angularModuleName)
     {
         $bundleMap = array();
         foreach ($kernel->getBundles() as $bundle) {
@@ -34,6 +35,7 @@ class SymfonyTemplateNameFormatter implements TemplateNameFormatterInterface
         }
 
         $this->bundleMap = $bundleMap;
+        $this->angularModuleName = $angularModuleName;
     }
 
     public function getForAsset(AssetInterface $asset)
@@ -45,6 +47,14 @@ class SymfonyTemplateNameFormatter implements TemplateNameFormatterInterface
 
         // get the relative path
         $templateName = $asset->getSourcePath();
+
+        // process module name by replacing all '$(segments[i])' occurrences in the configured module name
+        $segments = explode('/', $templateName);
+        $moduleName = preg_replace_callback('/\\$segments\\[(\\d+)\\]/', function ($match) use ($segments) {
+            $index = intval($match[1]);
+            return ($index >= 0 && $index < count($segments)) ? $segments[$index] : '';
+        }, $this->angularModuleName);
+
         // by convention, all symfony views are in Resources/views/, therefore remove this segment
         $templateName = str_replace('Resources/views/', '', $templateName);
         // remove the .ng extension (our convention)
@@ -53,7 +63,10 @@ class SymfonyTemplateNameFormatter implements TemplateNameFormatterInterface
         $bundleName = $this->bundleMap[$sourceRoot];
         $templateName = sprintf('%s/%s', $bundleName, $templateName);
 
-        return $templateName;
+        return array(
+            'moduleName' => $moduleName,
+            'templateName' => $templateName,
+        );
     }
 
-} 
+}

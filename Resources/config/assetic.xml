@@ -15,6 +15,7 @@
                  class="%asoc_assetic_angular_js.template_name_formatter.class%"
                  public="false">
             <argument type="service" id="kernel"/>
+            <argument>%asoc_assetic_angular_js.angular_module_name%</argument>
         </service>
         <service id="assetic.filter.angular"
                  class="%assetic.filter.angular.class%">
