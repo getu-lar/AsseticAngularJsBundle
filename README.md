@@ -3,15 +3,35 @@ AsseticAngularJsBundle
 Simple Assetic filter to feed the *$templateCache*.
 
 # Installation
-```shell
-composer require asoc/assetic-angular-js-bundle
+
+In composer.json
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/getu-lar/AsseticAngularJsBundle"
+        }
+    ],
+    "require": {
+        "getu-lar/assetic-angular-js-bundle": "dev-master"
+    }
+}
 ```
 
 ## Requirements
 Any Symfony2 2.3+ application will do.
 
 # Configuration
-None at the moment :)
+```yml
+asoc_assetic_angular_js:
+  angular_module_name: 'mySinglePageApp'
+```
+Name of angular application name which will be used in template cache (angular.module("mySinglePageApp").run(["$templateCache", function($templateCache) ...).
+
+A special syntax is available in the module name to incorporate parts of the original asset path into the module name. The module path is split into segments - e.g. 'Resources/app/mymodule/somefile.js' is split into segments \[ 'Resources', 'app', 'mymodule', 'somefile.js' \] and syntax of the form `$segments[3]` can be used to interpolate the matching segment into the generated module name.
+
+With the example above, a module name configuration of `my-mod-$segments[3]` will be translated into `my-mod-mymodule`.
 
 # Usage
 Just include the Angular templates as any other javascript resource using the javascripts Twig helper and apply the *angular* filter to them.
