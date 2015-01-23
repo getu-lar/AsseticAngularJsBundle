@@ -50,8 +50,9 @@ class SymfonyTemplateNameFormatter implements TemplateNameFormatterInterface
 
         // process module name by replacing all '$(segments[i])' occurrences in the configured module name
         $segments = explode('/', $templateName);
-        $moduleName = preg_replace_callback('/\\$segments\\[(\\d+)\\]/', function ($match) use ($segments) {
+        $moduleName = preg_replace_callback('/\\$segments\\[(-?\\d+)\\]/', function ($match) use ($segments) {
             $index = intval($match[1]);
+            $index = $index < 0 ? count($segments) + $index : $index;
             return ($index >= 0 && $index < count($segments)) ? $segments[$index] : '';
         }, $this->angularModuleName);
 
