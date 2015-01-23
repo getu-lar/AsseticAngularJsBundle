@@ -34,6 +34,10 @@ class AngularTemplateFilter extends BaseNodeFilter
 
     public function filterLoad(AssetInterface $asset)
     {
+    }
+
+    public function filterDump(AssetInterface $asset)
+    {
         $template = $this->templateNameFormatter->getForAsset($asset);
 
         $content = addslashes($asset->getContent());
@@ -48,15 +52,15 @@ class AngularTemplateFilter extends BaseNodeFilter
         }
 
         $js = <<<JS
-angular.module("{$template['moduleName']}", []).run(["\$templateCache", function(\$templateCache) {
+(function (angular) {
+var m;
+try { m = angular.module("{$template['moduleName']}"); } catch(err) { m = angular.module("{$template['moduleName']}", []); }
+m.run(["\$templateCache", function(\$templateCache) {
   \$templateCache.put("{$template['templateName']}", $html);
 }]);
+})(angular);
 JS;
 
         $asset->setContent($js);
-    }
-
-    public function filterDump(AssetInterface $asset)
-    {
     }
 }
